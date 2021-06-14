@@ -69,5 +69,44 @@ const makeGuess = function (guess) {
     } else {
         guessedLetters.push(guess);
         console.log(guessedLetters);
+
+        showGuessedLetters();
+        updateWordInProgress(guessedLetters);
     };
 }
+
+const showGuessedLetters = function () {
+    //Empty the innerHTML of the unordered list where the player's guessed letters will display.
+    guessedLettersElement.innerHTML = "";
+    //Create a new list item for each letter inside the array
+    for (const letter of guessedLetters) {
+        const li = document.createElement("li")
+        li.innerText = letter;
+        //Add guess to the unordered list
+        guessedLettersElement.append(li);
+    };
+};
+
+const updateWordInProgress = function (guessedLetters) {
+    const wordUpper = word.toUpperCase();
+    const wordArray = wordUpper.split("");
+    const showWord = [];
+
+    for (const letter of wordArray) {
+        if (guessedLetters.includes(letter)) {
+            showWord.push(letter.toUpperCase());
+        } else {
+        showWord.push("●");
+        }
+    }
+    wordInProgress.innerText = showWord.join("");
+
+    checkForWin();
+};
+
+const checkForWin = function () {
+    if (word.toUpperCase() === wordInProgress.innerText) {
+    guessMessage.classList.add("win");
+    guessMessage.innerHTML = `<p class="highlight">You guessed correct the word! Congrats!</p>`;
+    }
+};
