@@ -138,6 +138,7 @@ const guessCounter = function (guess) {
 
     if (remainingGuesses === 0) {
         guessMessage.innerText = "Better luck next time!";
+        startOver();
     } else if (remainingGuesses === 1) {
         guessMessage.innerText = "Tread lightly, this is your last guess!";
     } else if (remainingGuesses > 1) {
@@ -149,5 +150,31 @@ const checkForWin = function () {
     if (word.toUpperCase() === wordInProgress.innerText) {
     guessMessage.classList.add("win");
     guessMessage.innerHTML = `<p class="highlight">You guessed correct the word! Congrats!</p>`;
+    startOver();
     }
 };
+
+const startOver = function () {
+    guessButton.classList.add("hide");
+    remainingGuessesElement.classList.add("hide");
+    guessedLettersElement.classList.add("hide");
+
+    playAgainButton.classList.remove("hide");
+};
+
+playAgainButton.addEventListener("click", function(e) {
+    guessMessage.classList.remove("win");
+    guessMessage.innerHTML = ""
+    guessedLettersElement.innerText = "";
+    remainingGuesses = 8;
+    guessedLetters = [];
+    remainingGuessesElement.innerText = `You have ${remainingGuesses} guesses left`;
+
+    guessButton.classList.remove("hide");
+    remainingGuessesElement.classList.remove("hide");
+    guessedLettersElement.classList.remove("hide");
+
+    playAgainButton.classList.add("hide");
+
+    getWord();
+});
